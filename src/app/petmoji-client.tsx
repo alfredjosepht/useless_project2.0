@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, useTransition } from 'react';
@@ -10,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { getEmojiForPet } from './actions';
 import { cn } from '@/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { TypewriterEffect } from '@/components/ui/typewriter';
 
 const ALTERNATIVE_EMOJIS = ['😀', '😂', '😍', '😴', '🤔', '😠', '😮'];
 
@@ -171,7 +173,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     >
       <div className="flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-foreground transition-transform duration-300 hover:scale-105">PetMoji</h1>
-        <p className="mt-3 text-lg text-foreground/80">Turn your pet’s mood into emoji magic ✨</p>
+        <TypewriterEffect text="Detecting cuteness, one pet at a time..." className="mt-3 text-lg text-foreground/80" />
       </div>
 
       <Card className="overflow-hidden transition-all duration-500 shadow-lg rounded-xl bg-card/80 backdrop-blur-md border-white/20">
@@ -309,3 +311,5 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     </div>
   );
 }
+
+    
