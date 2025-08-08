@@ -137,8 +137,8 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   return (
     <div className="w-full max-w-2xl py-8 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center text-center mb-8">
-        <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-primary transition-transform duration-300 hover:scale-105">PetMoji</h1>
-        <p className="mt-3 text-lg text-primary/80">Turn your pet’s mood into emoji magic ✨</p>
+        <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-foreground transition-transform duration-300 hover:scale-105">PetMoji</h1>
+        <p className="mt-3 text-lg text-foreground/80">Turn your pet’s mood into emoji magic ✨</p>
       </div>
 
       <Card className="overflow-hidden transition-all duration-500 shadow-lg rounded-xl bg-card/80 backdrop-blur-md border-white/20">
@@ -235,7 +235,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
 
       {history.length > 0 && (
         <div className="mt-12">
-          <h2 className="text-2xl font-bold text-center mb-4 text-primary">Your PetMoji History</h2>
+          <h2 className="text-2xl font-bold text-center mb-4 text-foreground">Your PetMoji History</h2>
           <ScrollArea className="w-full whitespace-nowrap rounded-xl">
             <div className="flex w-max space-x-4 p-4">
               {history.map((item, index) => (
