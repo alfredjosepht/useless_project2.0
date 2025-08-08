@@ -1,58 +1,113 @@
-# PetMoji
+<img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
-A web app where you upload a picture of your pet's face, and an AI identifies the pet's face and assigns a personality-matching emoji.
 
-This is a Next.js project bootstrapped with `create-next-app` and configured for Firebase Studio.
+# [PetMoji] 🎯
 
-## Running Locally
 
-To run this project in your local development environment using Visual Studio Code, follow these steps:
+## Basic Details
+### Team Name: [The sternritter]
 
-### Prerequisites
 
-*   [Node.js](https://nodejs.org/en) (version 20 or later)
-*   [npm](https://www.npmjs.com/) (usually comes with Node.js)
-*   An API key for the Gemini API. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
+### Team Members
+- Team Lead: [Alfred Joseph T] - [NSS College of Engineering,Akathethara]
+- Member 2: [Akash S] - [NSS College of Engineering,Akathethara]
+- Member 3: [Name] - [College]
 
-### 1. Set Up Environment Variables
+### Project Description
+[This project takes a photo of your pet’s face, uses AI to recognize its features, and matches it with the closest expression. It then generates a fun emoji and a witty, hilarious comment describing your pet’s “mood,” making every scan a laugh-filled moment.]
 
-You'll need to provide your Gemini API key to the application.
+### The Problem (that doesn't exist)
+[Pet owners often wonder what their pets might be “thinking” or “feeling,” but animals can’t express emotions in human language. There is no fun, interactive way to interpret a pet’s expressions in real-time, leaving owners guessing. An AI-powered tool that recognizes a pet’s face and humorously translates its expression into relatable emojis and witty comments can bridge this gap, providing entertainment and engagement for pet lovers.]
 
-1.  Create a new file named `.env` in the root of the project.
-2.  Add the following line to the `.env` file, replacing `<YOUR_API_KEY>` with your actual key:
+### The Solution (that nobody asked for)
+[Develop an AI-powered application that detects and recognizes a pet’s face from an image, analyzes its facial features, and maps them to emotion categories. The system will then display a matching emoji and generate a witty, humorous comment that reflects the pet’s “mood.” This playful interpretation not only entertains pet owners but also enhances engagement through sharable, personalized pet content.]
 
-    ```
-    GEMINI_API_KEY=<YOUR_API_KEY>
-    ```
+## Technical Details
+### Technologies/Components Used
+For Software:
+- [Typescript,CSS,HTML]
+- [Next.js,Genkit AI Server]
+- [React,Next.js,Axios or fetch,Genkit AI server]
+- [Node.js and npm,Visual Studio Code,Git and GitHub,Linux shell]
 
-### 2. Install Dependencies
+For Hardware:
+- [hardware with at least Intel i/Ryzen 3 CPU]
+- [List specifications]
+- [List tools required]
 
-Open a terminal in VS Code (`View` > `Terminal`) and run the following command to install the necessary packages:
+### Implementation
+For Software:Prerequisites
+Node.js (version 20 or later)
+npm (usually comes with Node.js)
+An API key for the Gemini API. You can get one from Google AI Studio.
+# Installation
+[ou'll need to provide your Gemini API key to the application.
 
-```bash
+Create a new file named .env in the root of the project.
+
+Add the following line to the .env file, replacing <YOUR_API_KEY> with your actual key:
+
+GEMINI_API_KEY=<YOUR_API_KEY>
 npm install
-```
+npm run genkit:dev
+npm run dev]
 
-### 3. Run the Development Servers
+# Run
+[commands]
 
-This project requires two development servers to be running simultaneously:
+### Project Documentation
+For Software:
 
-*   The **Genkit AI server** for handling the AI logic.
-*   The **Next.js server** for the frontend application.
+# Screenshots (Add at least 3)
+![Alt text](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
 
-You can open two separate terminals in VS Code to run them.
 
-*   **In your first terminal**, start the Genkit server:
-    ```bash
-    npm run genkit:dev
-    ```
-    Wait until you see a message indicating that the server has started.
+![Screenshot2](Add screenshot 2 here with proper name)
+*Add caption explaining what this shows*
 
-*   **In your second terminal**, start the Next.js frontend server:
-    ```bash
-    npm run dev
-    ```
+![Screenshot3](Add screenshot 3 here with proper name)
+*Add caption explaining what this shows*
 
-### 4. Open the App
+# Diagrams
+![Workflow](Add your workflow/architecture diagram here)
+*Add caption explaining your workflow*
 
-Once both servers are running, you can open your web browser and navigate to [http://localhost:9002](http://localhost:9002) to see the application in action.
+For Hardware:
+
+# Schematic & Circuit
+![Circuit](Add your circuit diagram here)
+*Add caption explaining connections*
+
+![Schematic](Add your schematic diagram here)
+*Add caption explaining the schematic*
+
+# Build Photos
+![Components](Add photo of your components here)
+*List out all components shown*
+
+![Build](Add photos of build process here)
+*Explain the build steps*
+
+![Final](Add photo of final product here)
+*Explain the final build*
+
+### Project Demo
+# Video
+[Add your demo video link here]
+*Explain what the video demonstrates*
+
+# Additional Demos
+[Add any extra demo materials/links]
+
+## Team Contributions
+- []: [Specific contributions]
+- [Name 2]: [Specific contributions]
+- [Name 3]: [Specific contributions]
+
+---
+Made with ❤️ at TinkerHub Useless Projects 
+
+![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
+![Static Badge](https://img.shields.io/badge/UselessProjects--25-25?link=https%3A%2F%2Fwww.tinkerhub.org%2Fevents%2FQ2Q1TQKX6Q%2FUseless%2520Projects)
+
+
