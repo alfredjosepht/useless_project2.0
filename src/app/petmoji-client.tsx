@@ -107,7 +107,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const currentEmojis = emoji ? [...new Set([emoji, ...ALTERNATIVE_EMOJIS])] : ALTERNATIVE_EMOJIS;
 
   return (
-    <div className="w-full max-w-2xl py-8 px-4">
+    <div className="w-full max-w-2xl py-8 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-primary transition-transform duration-300 hover:scale-105">PetMoji</h1>
         <p className="mt-3 text-lg text-muted-foreground">Turn your pet’s mood into emoji magic ✨</p>
