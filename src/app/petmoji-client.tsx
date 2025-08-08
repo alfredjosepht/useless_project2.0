@@ -239,12 +239,12 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
           <ScrollArea className="w-full whitespace-nowrap rounded-lg">
             <div className="flex w-max space-x-4 p-4">
               {history.map((item, index) => (
-                <figure key={index} className="shrink-0 cursor-pointer" onClick={() => handleHistoryClick(item)}>
-                  <div className="overflow-hidden rounded-md relative group">
+                <figure key={index} className="shrink-0 cursor-pointer group" onClick={() => handleHistoryClick(item)}>
+                  <div className="overflow-hidden rounded-md relative">
                     <Image
                       src={item.image}
                       alt="A pet from history"
-                      className="h-32 w-32 object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="h-32 w-32 object-cover transition-transform duration-300 group-hover:scale-105"
                       width={128}
                       height={128}
                     />
