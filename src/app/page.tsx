@@ -1,4 +1,5 @@
 import PetMojiClient from './petmoji-client';
+import { cn } from '@/lib/utils';
 
 export default function Home({
   searchParams,
@@ -8,7 +9,7 @@ export default function Home({
   const emoji = typeof searchParams?.emoji === 'string' ? searchParams.emoji : null;
 
   return (
-    <main>
+    <main className="aurora-bg">
       <div className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
         <PetMojiClient initialEmoji={emoji} />
       </div>

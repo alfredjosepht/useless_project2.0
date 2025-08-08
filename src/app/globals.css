@@ -90,3 +90,26 @@ body {
 html {
   background: black;
 }
+
+@keyframes aurora {
+  from {
+    background-position: 50% 50%, 50% 50%;
+  }
+  to {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+
+.aurora-bg {
+  animation: aurora 20s infinite linear;
+  background-image: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      hsla(205, 79%, 51%, 0.15),
+      rgba(255, 255, 255, 0)
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      hsla(145, 63%, 49%, 0.1),
+      rgba(255, 255, 255, 0)
+    );
+}

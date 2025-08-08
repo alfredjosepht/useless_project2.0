@@ -113,7 +113,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         <p className="mt-2 text-lg text-muted-foreground">What's your pet really thinking? Upload a pic to find out!</p>
       </div>
 
-      <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-card/60 backdrop-blur-sm">
+      <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-card/60 backdrop-blur-sm border-white/10">
         <CardContent className="p-4 sm:p-6">
           {!image ? (
             <div
