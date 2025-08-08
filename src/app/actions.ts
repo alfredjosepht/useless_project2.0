@@ -9,7 +9,7 @@ export async function getEmojiForPet(photoDataUri: string) {
 
   try {
     const result = await assignEmoji({ photoDataUri });
-    return { success: true, emoji: result.emoji, comment: result.comment };
+    return { success: true, emoji: result.emoji, comment: result.comment, confidence: result.confidence };
   } catch (e) {
     console.error(e);
     // A more user-friendly error message.

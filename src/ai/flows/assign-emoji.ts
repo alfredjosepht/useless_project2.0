@@ -23,6 +23,7 @@ export type AssignEmojiInput = z.infer<typeof AssignEmojiInputSchema>;
 const AssignEmojiOutputSchema = z.object({
   emoji: z.string().describe("The emoji representing the pet's expression or mood."),
   comment: z.string().describe("A short, fun comment about the pet's expression or mood."),
+  confidence: z.number().describe("A confidence score from 0 to 100 on the accuracy of the emoji assignment."),
 });
 export type AssignEmojiOutput = z.infer<typeof AssignEmojiOutputSchema>;
 
@@ -38,6 +39,7 @@ const prompt = ai.definePrompt({
 1.  Analyze the pet's facial expression. Do not identify the type of animal. Your goal is to understand the emotion conveyed by the face (e.g., happy, sleepy, curious, grumpy).
 2.  Return a standard Unicode emoji that represents this facial expression. For example, if the pet looks happy, you might return '😄'. If it looks sleepy, '😴'. Do not return an emoji of the animal itself (e.g., if it's a cow, do not return '🐄').
 3.  Provide a short, fun, single-sentence comment about the pet's expression.
+4.  Provide a confidence score between 0 and 100 for your analysis.
 
 If a face is not clearly visible, make a best guess based on the pet's posture or the overall context of the image.
 
@@ -59,6 +61,7 @@ const assignEmojiFlow = ai.defineFlow(
     return {
       emoji: output.emoji,
       comment: output.comment,
+      confidence: output.confidence,
     };
   }
 );

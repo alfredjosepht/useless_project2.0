@@ -9,6 +9,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { getEmojiForPet } from './actions';
 import { cn } from '@/lib/utils';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const ALTERNATIVE_EMOJIS = ['😀', '😂', '😍', '😴', '🤔', '😠', '😮'];
 
@@ -16,10 +17,19 @@ type PetMojiClientProps = {
   initialEmoji: string | null;
 };
 
+type HistoryItem = {
+  image: string;
+  emoji: string;
+  comment: string;
+  confidence: number;
+};
+
 export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [image, setImage] = useState<string | null>(null);
   const [emoji, setEmoji] = useState<string | null>(initialEmoji);
   const [comment, setComment] = useState<string | null>(null);
+  const [confidence, setConfidence] = useState<number | null>(null);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isDragging, setIsDragging] = useState(false);
@@ -49,12 +59,21 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       setError(null);
       setEmoji(null);
       setComment(null);
+      setConfidence(null);
 
       startTransition(async () => {
         const result = await getEmojiForPet(dataUrl);
-        if (result.success && result.emoji && result.comment) {
+        if (result.success && result.emoji && result.comment && result.confidence) {
+          const newHistoryItem = {
+            image: dataUrl,
+            emoji: result.emoji,
+            comment: result.comment,
+            confidence: result.confidence
+          };
           setEmoji(result.emoji);
           setComment(result.comment);
+          setConfidence(result.confidence);
+          setHistory(prev => [newHistoryItem, ...prev]);
           setShowResult(true);
         } else {
           setError(result.error);
@@ -82,12 +101,21 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     setImage(null);
     setEmoji(null);
     setComment(null);
+    setConfidence(null);
     setError(null);
     setShowResult(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
+
+  const handleHistoryClick = (item: HistoryItem) => {
+    setImage(item.image);
+    setEmoji(item.emoji);
+    setComment(item.comment);
+    setConfidence(item.confidence);
+    setShowResult(true);
+  }
 
   const handleCopyLink = () => {
     const url = new URL(window.location.href);
@@ -160,7 +188,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
                   <p className="text-muted-foreground">Your pet is feeling...</p>
                   <p className="text-8xl my-4 animate-bounce-in">{emoji}</p>
                   {comment && (
-                    <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}"</p>
+                     <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}" ({confidence}% confident)</p>
                   )}
                   
                   <div className="mt-4 bg-muted/50 p-4 rounded-xl">
@@ -204,6 +232,33 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
           </CardFooter>
         )}
       </Card>
+
+      {history.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-center mb-4 text-primary">Your PetMoji History</h2>
+          <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+            <div className="flex w-max space-x-4 p-4">
+              {history.map((item, index) => (
+                <figure key={index} className="shrink-0 cursor-pointer" onClick={() => handleHistoryClick(item)}>
+                  <div className="overflow-hidden rounded-md relative group">
+                    <Image
+                      src={item.image}
+                      alt="A pet from history"
+                      className="h-32 w-32 object-cover transition-transform duration-300 group-hover:scale-110"
+                      width={128}
+                      height={128}
+                    />
+                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-4xl">{item.emoji}</span>
+                    </div>
+                  </div>
+                </figure>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        </div>
+      )}
     </div>
   );
 }
