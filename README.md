@@ -1,5 +1,5 @@
-# Firebase Studio
+# PetMoji
 
-This is a NextJS starter in Firebase Studio.
+A web app where you upload a picture of your pet's face, and an AI identifies the pet's face and assigns a personality-matching emoji.
 
-To get started, take a look at src/app/page.tsx.
+This is a Next.js project bootstrapped with `create-next-app` and configured for Firebase Studio.
