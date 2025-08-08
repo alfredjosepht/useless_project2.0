@@ -34,9 +34,10 @@ const prompt = ai.definePrompt({
   name: 'assignEmojiPrompt',
   input: {schema: AssignEmojiInputSchema},
   output: {schema: AssignEmojiOutputSchema},
-  prompt: `You are an AI that analyzes a picture of a pet. Your task is to:
-1. Return an emoji that best represents its expression or general mood.
-2. Provide a short, fun, single-sentence comment explaining the emoji choice.
+  prompt: `You are an AI that analyzes a picture of a pet to determine its emotional state. Your task is to:
+1.  Analyze the pet's facial expression. Do not identify the type of animal. Your goal is to understand the emotion conveyed by the face (e.g., happy, sleepy, curious, grumpy).
+2.  Return a standard Unicode emoji that represents this facial expression. For example, if the pet looks happy, you might return '😄'. If it looks sleepy, '😴'. Do not return an emoji of the animal itself (e.g., if it's a cow, do not return '🐄').
+3.  Provide a short, fun, single-sentence comment about the pet's expression.
 
 If a face is not clearly visible, make a best guess based on the pet's posture or the overall context of the image.
 
