@@ -103,7 +103,7 @@ html {
 }
 
 .aurora-bg {
-  background: linear-gradient(-45deg, #ffd3b6, #ffaaa5, #a8d0e6, #f3e6e8);
+  background: linear-gradient(-45deg, #fbcfe8, #fef9c3, #fce7f3);
   background-size: 400% 400%;
   animation: aurora 15s ease infinite;
 }
