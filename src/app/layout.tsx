@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { Poppins, Inter } from 'next/font/google';
+import { Particles } from '@/components/ui/particles';
 
 export const metadata: Metadata = {
   title: 'PetMoji - What\'s Your Pet Thinking?',
@@ -33,7 +34,8 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <div className="fixed top-0 left-0 w-full h-full aurora-bg opacity-40 -z-10"></div>
+        <Particles className="absolute inset-0 -z-10" />
+        <div className="fixed top-0 left-0 w-full h-full aurora-bg opacity-40 -z-20"></div>
         {children}
         <Toaster />
       </body>
