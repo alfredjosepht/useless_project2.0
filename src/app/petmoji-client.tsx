@@ -104,8 +104,8 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const currentEmojis = emoji ? [...new Set([emoji, ...ALTERNATIVE_EMOJIS])] : ALTERNATIVE_EMOJIS;
 
   return (
-    <div className="w-full max-w-2xl">
-      <div className="flex flex-col items-center text-center mb-8">
+    <div className="w-full max-w-2xl py-8">
+      <div className="flex flex-col items-center text-center mb-8 px-4">
         <div className="flex items-center justify-center mb-4 text-primary bg-primary/10 p-3 rounded-full">
             <PawPrint className="h-10 w-10 " />
         </div>
@@ -129,7 +129,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
               <div className="bg-primary/10 p-4 rounded-full mb-4">
                 <UploadCloud className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <p className="font-semibold text-lg">Click to upload or drag & drop</p>
+              <p className="font-semibold text-lg text-center">Click to upload or drag & drop</p>
               <p className="text-muted-foreground text-sm mt-1">PNG, JPG, or WEBP</p>
               <input
                 type="file"
@@ -141,7 +141,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-md rounded-2xl overflow-hidden shadow-lg mb-6">
+              <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6">
                 <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
                 {isPending && (
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-500">
@@ -192,10 +192,10 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
 
         {image && (
           <CardFooter className="bg-muted/30 p-4 flex flex-col sm:flex-row gap-2 justify-center">
-             <Button onClick={handleReset} variant="outline" size="lg" className="transition-transform hover:scale-105">
+             <Button onClick={handleReset} variant="outline" size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto">
               <X className="mr-2" /> Start Over
             </Button>
-            <Button onClick={handleCopyLink} disabled={!emoji || isPending} size="lg" className="transition-transform hover:scale-105">
+            <Button onClick={handleCopyLink} disabled={!emoji || isPending} size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto">
               <Copy className="mr-2" /> Copy Share Link
             </Button>
           </CardFooter>
