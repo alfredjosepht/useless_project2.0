@@ -35,6 +35,10 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [showResult, setShowResult] = useState(false);
   
+  const [isEmojiDragging, setIsEmojiDragging] = useState(false);
+  const [emojiPosition, setEmojiPosition] = useState({ x: 0, y: 0 });
+  const dragStartRef = useRef({ x: 0, y: 0 });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -60,6 +64,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       setEmoji(null);
       setComment(null);
       setConfidence(null);
+      setEmojiPosition({ x: 0, y: 0 });
 
       startTransition(async () => {
         const result = await getEmojiForPet(dataUrl);
@@ -104,6 +109,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     setConfidence(null);
     setError(null);
     setShowResult(false);
+    setEmojiPosition({ x: 0, y: 0 });
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -115,6 +121,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     setComment(item.comment);
     setConfidence(item.confidence);
     setShowResult(true);
+    setEmojiPosition({ x: 0, y: 0 });
   }
 
   const handleCopyLink = () => {
@@ -132,10 +139,36 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     });
   };
 
+  const onEmojiMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsEmojiDragging(true);
+    dragStartRef.current = {
+      x: e.clientX - emojiPosition.x,
+      y: e.clientY - emojiPosition.y,
+    };
+  };
+
+  const onEmojiMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isEmojiDragging) {
+      setEmojiPosition({
+        x: e.clientX - dragStartRef.current.x,
+        y: e.clientY - dragStartRef.current.y,
+      });
+    }
+  };
+
+  const onEmojiMouseUp = () => {
+    setIsEmojiDragging(false);
+  };
+
   const currentEmojis = emoji ? [...new Set([emoji, ...ALTERNATIVE_EMOJIS])] : ALTERNATIVE_EMOJIS;
 
   return (
-    <div className="w-full max-w-2xl py-8 px-4 sm:px-6 lg:px-8">
+    <div 
+      className="w-full max-w-2xl py-8 px-4 sm:px-6 lg:px-8"
+      onMouseMove={onEmojiMouseMove}
+      onMouseUp={onEmojiMouseUp}
+      onMouseLeave={onEmojiMouseUp}
+    >
       <div className="flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-foreground transition-transform duration-300 hover:scale-105">PetMoji</h1>
         <p className="mt-3 text-lg text-foreground/80">Turn your pet’s mood into emoji magic ✨</p>
@@ -182,13 +215,27 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
           )}
 
           {image && !isPending && (
-            <div className={cn("text-center w-full", showResult ? "animate-in fade-in-0 zoom-in-95 duration-700" : "opacity-0")}>
+            <div className={cn("text-center w-full relative", showResult ? "animate-in fade-in-0 zoom-in-95 duration-700" : "opacity-0")}>
               {emoji && (
                 <>
                   <p className="text-foreground/80">Your pet is feeling...</p>
-                  <p className="text-8xl my-4 animate-bounce-in">{emoji}</p>
+                  <div
+                    className="absolute w-full h-full"
+                    style={{ zIndex: 10, top: '50px' }}
+                  >
+                     <div
+                        onMouseDown={onEmojiMouseDown}
+                        className="text-8xl my-4 animate-bounce-in inline-block cursor-grab"
+                        style={{
+                          transform: `translate(${emojiPosition.x}px, ${emojiPosition.y}px)`,
+                          position: 'relative',
+                        }}
+                      >
+                        {emoji}
+                      </div>
+                  </div>
                   {comment && (
-                     <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}" ({confidence}% confident)</p>
+                     <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto pt-32">"{comment}" ({confidence}% confident)</p>
                   )}
                   
                   <div className="mt-4 bg-primary/10 p-4 rounded-xl">
