@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import Image from 'next/image';
-import { UploadCloud, Loader2, Copy, X, PawPrint, WandSparkles } from 'lucide-react';
+import { UploadCloud, Loader2, Copy, X, PawPrint, Cat } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -23,6 +23,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isDragging, setIsDragging] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -40,7 +41,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       setError('Please select an image file.');
       return;
     }
-
+    setShowResult(false);
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string;
@@ -54,6 +55,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         if (result.success) {
           setEmoji(result.emoji);
           setComment(result.comment);
+          setShowResult(true);
         } else {
           setError(result.error);
         }
@@ -81,6 +83,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
     setEmoji(null);
     setComment(null);
     setError(null);
+    setShowResult(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -104,13 +107,10 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const currentEmojis = emoji ? [...new Set([emoji, ...ALTERNATIVE_EMOJIS])] : ALTERNATIVE_EMOJIS;
 
   return (
-    <div className="w-full max-w-2xl py-8">
-      <div className="flex flex-col items-center text-center mb-8 px-4">
-        <div className="flex items-center justify-center mb-4 text-primary bg-primary/10 p-3 rounded-full">
-            <PawPrint className="h-10 w-10 " />
-        </div>
+    <div className="w-full max-w-2xl py-8 px-4">
+      <div className="flex flex-col items-center text-center mb-8">
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-primary transition-transform duration-300 hover:scale-105">PetMoji</h1>
-        <p className="mt-2 text-lg text-muted-foreground">What's your pet really thinking? Upload a pic to find out!</p>
+        <p className="mt-3 text-lg text-muted-foreground">Turn your pet’s mood into emoji magic ✨</p>
       </div>
 
       <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-card/60 backdrop-blur-sm border-white/10">
@@ -119,17 +119,17 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
             <div
               className={cn(
                 "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out",
-                isDragging ? "border-primary bg-primary/10 scale-105" : "border-border/50 hover:border-primary/50"
+                isDragging ? "border-primary bg-primary/10 scale-105 shadow-2xl shadow-primary/30" : "border-border/50 hover:border-primary/50 hover:bg-primary/5"
               )}
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => handleDragEvents(e, true)}
               onDragLeave={(e) => handleDragEvents(e, false)}
               onDrop={handleDrop}
             >
-              <div className="bg-primary/10 p-4 rounded-full mb-4">
-                <UploadCloud className="w-10 h-10 text-primary transition-transform duration-300 group-hover:scale-110" />
+              <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
+                 <Cat className="w-16 h-16" />
               </div>
-              <p className="font-semibold text-lg text-center">Click to upload or drag & drop</p>
+              <p className="font-semibold text-lg text-center">Drop your pet photo here or click to upload</p>
               <p className="text-muted-foreground text-sm mt-1">PNG, JPG, or WEBP</p>
               <input
                 type="file"
@@ -141,12 +141,12 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6">
+              <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6 animate-in fade-in duration-500">
                 <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
                 {isPending && (
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-500">
-                    <Loader2 className="w-12 h-12 animate-spin mb-4" />
-                    <p className="text-lg font-semibold">Analyzing personality...</p>
+                    <PawPrint className="w-12 h-12 animate-spin text-primary mb-4" />
+                    <p className="text-lg font-semibold">Analyzing mood...</p>
                   </div>
                 )}
               </div>
@@ -157,55 +157,52 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
-
-              {!isPending && emoji && (
-                <div className="text-center animate-in fade-in-0 zoom-in-95 duration-700 w-full p-4">
-                  <p className="text-muted-foreground">Our AI says your pet is feeling...</p>
-                  <p className="text-8xl my-4 transition-transform duration-300 ease-out hover:scale-125">{emoji}</p>
-                  {comment && (
-                    <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}"</p>
-                  )}
-                  
-                  <div className="mt-4 bg-muted/50 p-4 rounded-xl">
-                    <p className="text-sm text-muted-foreground mb-3 font-medium">Not quite right? Pick another!</p>
-                    <div className="flex justify-center flex-wrap gap-2">
-                      {currentEmojis.map((e) => (
-                        <button
-                          key={e}
-                          onClick={() => setEmoji(e)}
-                          className={cn(
-                            "text-3xl p-2 rounded-full transition-all duration-200 ease-in-out",
-                            e === emoji ? 'bg-primary/20 scale-125 ring-2 ring-primary' : 'hover:bg-primary/10 hover:scale-110'
-                          )}
-                          aria-label={`Select emoji ${e}`}
-                        >
-                          {e}
-                        </button>
-                      ))}
+              
+              <div className={cn("text-center w-full", showResult ? "animate-in fade-in-0 zoom-in-95 duration-700" : "opacity-0")}>
+                {emoji && (
+                  <>
+                    <p className="text-muted-foreground">Your pet is feeling...</p>
+                    <p className="text-8xl my-4 animate-bounce-in">{emoji}</p>
+                    {comment && (
+                      <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}"</p>
+                    )}
+                    
+                    <div className="mt-4 bg-muted/50 p-4 rounded-xl">
+                      <p className="text-sm text-muted-foreground mb-3 font-medium">Not quite right? Pick another!</p>
+                      <div className="flex justify-center flex-wrap gap-2">
+                        {currentEmojis.map((e) => (
+                          <button
+                            key={e}
+                            onClick={() => setEmoji(e)}
+                            className={cn(
+                              "text-3xl p-2 rounded-full transition-all duration-200 ease-in-out",
+                              e === emoji ? 'bg-primary/20 scale-125 ring-2 ring-primary' : 'hover:bg-primary/10 hover:scale-110'
+                            )}
+                            aria-label={`Select emoji ${e}`}
+                          >
+                            {e}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
+                  </>
+                )}
+              </div>
             </div>
           )}
         </CardContent>
 
         {image && (
           <CardFooter className="bg-muted/30 p-4 flex flex-col sm:flex-row gap-2 justify-center">
-             <Button onClick={handleReset} variant="outline" size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto">
+             <Button onClick={handleReset} variant="outline" size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto rounded-full">
               <X className="mr-2" /> Start Over
             </Button>
-            <Button onClick={handleCopyLink} disabled={!emoji || isPending} size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto">
-              <Copy className="mr-2" /> Copy Share Link
+            <Button onClick={handleCopyLink} disabled={!emoji || isPending} size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto rounded-full">
+              <Copy className="mr-2" /> Share Result
             </Button>
           </CardFooter>
         )}
       </Card>
-      
-      <div className="flex items-center justify-center mt-6 text-sm text-muted-foreground">
-        <WandSparkles className="w-4 h-4 mr-2 text-primary" />
-        <p>Powered by AI</p>
-      </div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['var(--font-inter)', 'sans-serif'],
-        headline: ['var(--font-poppins)', 'Inter', 'sans-serif'],
+        headline: ['"Fredoka One"', 'var(--font-poppins)', 'cursive'],
         code: ['monospace'],
       },
       colors: {
@@ -80,6 +80,7 @@ export default {
         lg: 'calc(var(--radius) - 8px)',
         md: 'calc(var(--radius) - 12px)',
         sm: 'calc(var(--radius) - 16px)',
+        full: '9999px',
       },
       keyframes: {
         'accordion-down': {
