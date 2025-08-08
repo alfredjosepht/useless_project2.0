@@ -141,12 +141,12 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         <p className="mt-3 text-lg text-primary/80">Turn your pet’s mood into emoji magic ✨</p>
       </div>
 
-      <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-card/80 backdrop-blur-md border-white/20">
+      <Card className="overflow-hidden transition-all duration-500 shadow-lg rounded-xl bg-card/80 backdrop-blur-md border-white/20">
         <CardContent className="p-4 sm:p-6">
           {!image ? (
             <div
               className={cn(
-                "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out mt-4",
+                "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 ease-in-out mt-4",
                 isDragging ? "border-primary bg-primary/10 scale-105 shadow-2xl shadow-primary/30" : "border-muted/80 hover:border-primary/50 hover:bg-primary/5"
               )}
               onClick={() => fileInputRef.current?.click()}
@@ -169,7 +169,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
             </div>
           ) : (
             <div className="flex flex-col items-center mt-4">
-              <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6 animate-in fade-in duration-500">
+              <div className="relative w-full aspect-square max-w-sm mx-auto rounded-xl overflow-hidden shadow-lg mb-6 animate-in fade-in duration-500">
                 <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
                 {isPending && (
                   <div className="absolute inset-0 bg-white/50 flex flex-col items-center justify-center text-primary backdrop-blur-sm animate-in fade-in duration-500">
@@ -236,11 +236,11 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       {history.length > 0 && (
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-center mb-4 text-primary">Your PetMoji History</h2>
-          <ScrollArea className="w-full whitespace-nowrap rounded-lg">
+          <ScrollArea className="w-full whitespace-nowrap rounded-xl">
             <div className="flex w-max space-x-4 p-4">
               {history.map((item, index) => (
-                <figure key={index} className="shrink-0 cursor-pointer group" onClick={() => handleHistoryClick(item)}>
-                  <div className="overflow-hidden rounded-md relative">
+                <figure key={index} className="shrink-0 cursor-pointer group transition-transform hover:scale-105" onClick={() => handleHistoryClick(item)}>
+                  <div className="overflow-hidden rounded-xl shadow-lg relative">
                     <Image
                       src={item.image}
                       alt="A pet from history"
