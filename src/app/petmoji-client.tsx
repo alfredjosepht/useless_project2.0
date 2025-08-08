@@ -118,15 +118,15 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
           {!image ? (
             <div
               className={cn(
-                "flex flex-col items-center justify-center p-10 border-2 border-dashed rounded-lg cursor-pointer transition-colors",
-                isDragging ? "border-primary bg-primary/10" : "border-border hover:border-primary/50"
+                "flex flex-col items-center justify-center p-10 border-2 border-dashed rounded-lg cursor-pointer transition-all duration-300 ease-in-out",
+                isDragging ? "border-primary bg-primary/10 scale-105" : "border-border hover:border-primary/50"
               )}
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => handleDragEvents(e, true)}
               onDragLeave={(e) => handleDragEvents(e, false)}
               onDrop={handleDrop}
             >
-              <UploadCloud className="w-16 h-16 text-primary/70 mb-4" />
+              <UploadCloud className="w-16 h-16 text-primary/70 mb-4 transition-transform duration-300 group-hover:scale-110" />
               <p className="font-semibold text-lg">Click to upload or drag & drop</p>
               <p className="text-muted-foreground text-sm mt-1">PNG, JPG, or WEBP</p>
               <input
@@ -142,7 +142,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
               <div className="relative w-full aspect-square max-w-md rounded-lg overflow-hidden shadow-lg mb-6">
                 <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
                 {isPending && (
-                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm">
+                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-500">
                     <Loader2 className="w-12 h-12 animate-spin mb-4" />
                     <p className="text-lg font-semibold">Analyzing personality...</p>
                   </div>
@@ -150,18 +150,18 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
               </div>
 
               {error && !isPending && (
-                 <Alert variant="destructive" className="w-full mb-4">
+                 <Alert variant="destructive" className="w-full mb-4 animate-in fade-in duration-500">
                   <AlertTitle>Analysis Failed</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 
               {!isPending && emoji && (
-                <div className="text-center animate-in fade-in zoom-in-95 duration-500 w-full">
+                <div className="text-center animate-in fade-in-0 zoom-in-95 duration-700 w-full">
                   <p className="text-muted-foreground">Our AI says your pet is feeling...</p>
-                  <p className="text-8xl my-4">{emoji}</p>
+                  <p className="text-8xl my-4 transition-transform duration-300 ease-out hover:scale-110">{emoji}</p>
                   {comment && (
-                    <p className="text-lg text-foreground mb-6">"{comment}"</p>
+                    <p className="text-lg text-foreground mb-6 italic">"{comment}"</p>
                   )}
                   
                   <div className="mt-4">
@@ -173,7 +173,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
                           onClick={() => setEmoji(e)}
                           className={cn(
                             "text-3xl p-2 rounded-full transition-all duration-200",
-                            e === emoji ? 'bg-primary/20 scale-125' : 'hover:bg-accent'
+                            e === emoji ? 'bg-primary/20 scale-125' : 'hover:bg-accent hover:scale-110'
                           )}
                           aria-label={`Select emoji ${e}`}
                         >
