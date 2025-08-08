@@ -21,7 +21,7 @@ const AssignEmojiInputSchema = z.object({
 export type AssignEmojiInput = z.infer<typeof AssignEmojiInputSchema>;
 
 const AssignEmojiOutputSchema = z.object({
-  emoji: z.string().describe('The emoji representing the pet\'s facial expression.'),
+  emoji: z.string().describe("The emoji representing the pet's expression or mood."),
 });
 export type AssignEmojiOutput = z.infer<typeof AssignEmojiOutputSchema>;
 
@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
   name: 'assignEmojiPrompt',
   input: {schema: AssignEmojiInputSchema},
   output: {schema: AssignEmojiOutputSchema},
-  prompt: `You are an AI that analyzes a picture of a pet's face and returns an emoji that best represents its facial expression. The emoji should reflect the emotion seen in the pet's face.
+  prompt: `You are an AI that analyzes a picture of a pet and returns an emoji that best represents its expression or general mood. If a face is not clearly visible, make a best guess based on the pet's posture or the overall context of the image.
 
 Here is the pet's photo: {{media url=photoDataUri}}
 
@@ -49,8 +49,11 @@ const assignEmojiFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
+    if (!output) {
+      throw new Error("The model did not return an emoji.");
+    }
     return {
-      emoji: output!,
+      emoji: output.emoji,
     };
   }
 );
