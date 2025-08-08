@@ -109,11 +109,11 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         <div className="flex items-center justify-center mb-4 text-primary bg-primary/10 p-3 rounded-full">
             <PawPrint className="h-10 w-10 " />
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-primary">PetMoji</h1>
+        <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-headline text-primary transition-transform duration-300 hover:scale-105">PetMoji</h1>
         <p className="mt-2 text-lg text-muted-foreground">What's your pet really thinking? Upload a pic to find out!</p>
       </div>
 
-      <Card className="overflow-hidden transition-all duration-500 shadow-xl rounded-2xl">
+      <Card className="overflow-hidden transition-all duration-500 shadow-xl rounded-2xl bg-white/60 backdrop-blur-sm">
         <CardContent className="p-4 sm:p-6">
           {!image ? (
             <div
