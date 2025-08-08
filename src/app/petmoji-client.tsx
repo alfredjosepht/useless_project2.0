@@ -141,13 +141,13 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         <p className="mt-3 text-lg text-primary/80">Turn your pet’s mood into emoji magic ✨</p>
       </div>
 
-      <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-white/60 backdrop-blur-md border-white/20">
+      <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-card/80 backdrop-blur-md border-white/20">
         <CardContent className="p-4 sm:p-6">
           {!image ? (
             <div
               className={cn(
                 "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out mt-4",
-                isDragging ? "border-primary bg-primary/10 scale-105 shadow-2xl shadow-primary/30" : "border-border/50 hover:border-primary/50 hover:bg-primary/5"
+                isDragging ? "border-primary bg-primary/10 scale-105 shadow-2xl shadow-primary/30" : "border-muted/80 hover:border-primary/50 hover:bg-primary/5"
               )}
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => handleDragEvents(e, true)}
@@ -157,8 +157,8 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
               <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
                   <Cat className="w-16 h-16" />
               </div>
-              <p className="font-semibold text-lg text-center text-primary/90">Drop your pet photo here or click to upload</p>
-              <p className="text-primary/70 text-sm mt-1">PNG, JPG, or WEBP</p>
+              <p className="font-semibold text-lg text-center text-foreground/90">Drop your pet photo here or click to upload</p>
+              <p className="text-foreground/70 text-sm mt-1">PNG, JPG, or WEBP</p>
               <input
                 type="file"
                 ref={fileInputRef}
@@ -185,10 +185,10 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
             <div className={cn("text-center w-full", showResult ? "animate-in fade-in-0 zoom-in-95 duration-700" : "opacity-0")}>
               {emoji && (
                 <>
-                  <p className="text-primary/80">Your pet is feeling...</p>
+                  <p className="text-foreground/80">Your pet is feeling...</p>
                   <p className="text-8xl my-4 animate-bounce-in">{emoji}</p>
                   {comment && (
-                     <p className="text-lg text-primary/80 mb-6 italic max-w-md mx-auto">"{comment}" ({confidence}% confident)</p>
+                     <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}" ({confidence}% confident)</p>
                   )}
                   
                   <div className="mt-4 bg-primary/10 p-4 rounded-xl">
@@ -222,7 +222,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         </CardContent>
 
         {image && (
-          <CardFooter className="bg-white/30 p-4 flex flex-col sm:flex-row gap-2 justify-center">
+          <CardFooter className="bg-card/60 p-4 flex flex-col sm:flex-row gap-2 justify-center">
              <Button onClick={handleReset} variant="outline" size="lg" className="transition-transform hover:scale-105 w-full sm:w-auto rounded-full text-primary border-primary hover:bg-primary hover:text-white">
               <X className="mr-2" /> Start Over
             </Button>
