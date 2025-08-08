@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import Image from 'next/image';
-import { UploadCloud, Loader2, Copy, X, PawPrint, Cat } from 'lucide-react';
+import { UploadCloud, Loader2, Copy, X, PawPrint, Cat, History } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -16,6 +16,12 @@ type PetMojiClientProps = {
   initialEmoji: string | null;
 };
 
+type HistoryItem = {
+  image: string;
+  emoji: string;
+  comment: string;
+};
+
 export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [image, setImage] = useState<string | null>(null);
   const [emoji, setEmoji] = useState<string | null>(initialEmoji);
@@ -24,6 +30,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [isPending, startTransition] = useTransition();
   const [isDragging, setIsDragging] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -52,10 +59,11 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
 
       startTransition(async () => {
         const result = await getEmojiForPet(dataUrl);
-        if (result.success) {
+        if (result.success && result.emoji && result.comment) {
           setEmoji(result.emoji);
           setComment(result.comment);
           setShowResult(true);
+          setHistory(prev => [{ image: dataUrl, emoji: result.emoji!, comment: result.comment! }, ...prev]);
         } else {
           setError(result.error);
         }
@@ -102,6 +110,13 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       title: 'Link Copied!',
       description: 'You can now share your pet\'s emoji with friends.',
     });
+  };
+
+  const handleHistoryClick = (item: HistoryItem) => {
+    setImage(item.image);
+    setEmoji(item.emoji);
+    setComment(item.comment);
+    setShowResult(true);
   };
 
   const currentEmojis = emoji ? [...new Set([emoji, ...ALTERNATIVE_EMOJIS])] : ALTERNATIVE_EMOJIS;
@@ -203,6 +218,28 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
           </CardFooter>
         )}
       </Card>
+      
+      {history.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-center mb-4 flex items-center justify-center gap-2">
+            <History className="w-6 h-6" />
+            Your PetMoji History
+          </h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4">
+            {history.map((item, index) => (
+              <div key={index} className="flex-shrink-0" onClick={() => handleHistoryClick(item)}>
+                <Card className="w-40 h-40 overflow-hidden cursor-pointer group relative transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 hover:scale-105">
+                  <Image src={item.image} alt="Historic pet" layout="fill" objectFit="cover" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all duration-300" />
+                  <div className="absolute bottom-1 right-1 text-4xl p-1 bg-black/30 rounded-lg backdrop-blur-sm">
+                    {item.emoji}
+                  </div>
+                </Card>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
