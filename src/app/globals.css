@@ -131,4 +131,5 @@ html {
   animation-name: float;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  color: hsl(var(--primary) / 0.3);
 }

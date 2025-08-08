@@ -9,36 +9,45 @@ type ParticlesProps = {
   quantity?: number;
 };
 
+const EMOJIS = ["🐱", "🐶", "🐾", "🐈", "🐕"];
+
 export function Particles({ className, quantity = 30 }: ParticlesProps) {
   const [particles, setParticles] = useState<
     {
       id: number;
       style: React.CSSProperties;
+      content: React.ReactNode;
     }[]
   >([]);
 
   useEffect(() => {
-    const newParticles = Array.from({ length: quantity }).map((_, i) => ({
-      id: i,
-      style: {
-        left: `${Math.random() * 100}%`,
-        animationDuration: `${Math.random() * 5 + 5}s`,
-        animationDelay: `${Math.random() * 5}s`,
-        opacity: Math.random() * 0.2 + 0.1,
-        fontSize: `${Math.floor(Math.random() * 20) + 10}px`,
-      },
-    }));
+    const newParticles = Array.from({ length: quantity }).map((_, i) => {
+      const chosen = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      return {
+        id: i,
+        style: {
+          left: `${Math.random() * 100}%`,
+          animationDuration: `${Math.random() * 5 + 8}s`,
+          animationDelay: `${Math.random() * 5}s`,
+          opacity: Math.random() * 0.2 + 0.1,
+          fontSize: `${Math.floor(Math.random() * 20) + 10}px`,
+        },
+        content: chosen === '🐾' ? <PawPrint /> : chosen,
+      };
+    });
     setParticles(newParticles);
   }, [quantity]);
 
   return (
     <div className={cn('w-full h-full overflow-hidden', className)}>
       {particles.map((particle) => (
-        <PawPrint
+         <div
           key={particle.id}
-          className="particle text-primary/30"
+          className="particle"
           style={particle.style}
-        />
+        >
+          {particle.content}
+        </div>
       ))}
     </div>
   );
