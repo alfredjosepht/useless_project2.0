@@ -1,11 +1,18 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
+import { Poppins } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: 'PetMoji - What\'s Your Pet Thinking?',
   description: "Upload a picture of your pet and let our AI guess their personality with an emoji!",
 };
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-poppins',
+});
 
 export default function RootLayout({
   children,
@@ -13,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light">
+    <html lang="en" className={`light ${poppins.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
