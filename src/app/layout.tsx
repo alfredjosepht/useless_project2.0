@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable} dark`}>
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -33,7 +33,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <div className="fixed top-0 left-0 w-full h-full aurora-bg opacity-20 -z-10"></div>
+        <div className="fixed top-0 left-0 w-full h-full aurora-bg opacity-40 -z-10"></div>
         {children}
         <Toaster />
       </body>
