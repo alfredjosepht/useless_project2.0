@@ -61,12 +61,10 @@ For Software:
 # Screenshots (Add at least 3)
 ![Alt text](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
 
+![Description](https://drive.google.com/uc?export=view&id=1Zq7OsCUwKkUIbVAf-55eOo9Heub1Oslc)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Description](https://drive.google.com/uc?id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
 
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
