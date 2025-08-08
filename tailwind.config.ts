@@ -8,9 +8,16 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
+        body: ['var(--font-inter)', 'sans-serif'],
         headline: ['var(--font-poppins)', 'Inter', 'sans-serif'],
         code: ['monospace'],
       },
@@ -67,9 +74,12 @@ export default {
         },
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        '3xl': 'calc(var(--radius) + 4px)',
+        '2xl': 'var(--radius)',
+        xl: 'calc(var(--radius) - 4px)',
+        lg: 'calc(var(--radius) - 8px)',
+        md: 'calc(var(--radius) - 12px)',
+        sm: 'calc(var(--radius) - 16px)',
       },
       keyframes: {
         'accordion-down': {

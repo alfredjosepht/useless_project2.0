@@ -113,13 +113,13 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
         <p className="mt-2 text-lg text-muted-foreground">What's your pet really thinking? Upload a pic to find out!</p>
       </div>
 
-      <Card className="overflow-hidden transition-all duration-500 shadow-xl rounded-2xl bg-white/60 backdrop-blur-sm">
+      <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-white/60 backdrop-blur-sm">
         <CardContent className="p-4 sm:p-6">
           {!image ? (
             <div
               className={cn(
-                "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 ease-in-out",
-                isDragging ? "border-primary bg-primary/10 scale-105" : "border-border hover:border-primary/50"
+                "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out",
+                isDragging ? "border-primary bg-primary/10 scale-105" : "border-border/50 hover:border-primary/50"
               )}
               onClick={() => fileInputRef.current?.click()}
               onDragOver={(e) => handleDragEvents(e, true)}
@@ -141,7 +141,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-md rounded-xl overflow-hidden shadow-lg mb-6">
+              <div className="relative w-full aspect-square max-w-md rounded-2xl overflow-hidden shadow-lg mb-6">
                 <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
                 {isPending && (
                   <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-500">
@@ -161,12 +161,12 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
               {!isPending && emoji && (
                 <div className="text-center animate-in fade-in-0 zoom-in-95 duration-700 w-full p-4">
                   <p className="text-muted-foreground">Our AI says your pet is feeling...</p>
-                  <p className="text-8xl my-4 transition-transform duration-300 ease-out hover:scale-110">{emoji}</p>
+                  <p className="text-8xl my-4 transition-transform duration-300 ease-out hover:scale-125">{emoji}</p>
                   {comment && (
                     <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}"</p>
                   )}
                   
-                  <div className="mt-4 bg-muted p-4 rounded-lg">
+                  <div className="mt-4 bg-muted/50 p-4 rounded-xl">
                     <p className="text-sm text-muted-foreground mb-3 font-medium">Not quite right? Pick another!</p>
                     <div className="flex justify-center flex-wrap gap-2">
                       {currentEmojis.map((e) => (
@@ -174,8 +174,8 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
                           key={e}
                           onClick={() => setEmoji(e)}
                           className={cn(
-                            "text-3xl p-2 rounded-full transition-all duration-200",
-                            e === emoji ? 'bg-primary/20 scale-125 ring-2 ring-primary' : 'hover:bg-accent hover:scale-110'
+                            "text-3xl p-2 rounded-full transition-all duration-200 ease-in-out",
+                            e === emoji ? 'bg-primary/20 scale-125 ring-2 ring-primary' : 'hover:bg-primary/10 hover:scale-110'
                           )}
                           aria-label={`Select emoji ${e}`}
                         >
@@ -192,10 +192,10 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
 
         {image && (
           <CardFooter className="bg-muted/30 p-4 flex flex-col sm:flex-row gap-2 justify-center">
-             <Button onClick={handleReset} variant="outline" size="lg">
+             <Button onClick={handleReset} variant="outline" size="lg" className="transition-transform hover:scale-105">
               <X className="mr-2" /> Start Over
             </Button>
-            <Button onClick={handleCopyLink} disabled={!emoji || isPending} size="lg">
+            <Button onClick={handleCopyLink} disabled={!emoji || isPending} size="lg" className="transition-transform hover:scale-105">
               <Copy className="mr-2" /> Copy Share Link
             </Button>
           </CardFooter>
