@@ -2,13 +2,14 @@
 
 import { useState, useRef, useEffect, useTransition } from 'react';
 import Image from 'next/image';
-import { UploadCloud, Loader2, Copy, X, PawPrint, Cat, History } from 'lucide-react';
+import { UploadCloud, Loader2, Copy, X, PawPrint, Cat, History, Video } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { getEmojiForPet } from './actions';
 import { cn } from '@/lib/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const ALTERNATIVE_EMOJIS = ['😀', '😂', '😍', '😴', '🤔', '😠', '😮'];
 
@@ -31,8 +32,10 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -40,6 +43,24 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       setEmoji(initialEmoji);
     }
   }, [initialEmoji]);
+
+  useEffect(() => {
+    const getCameraPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({video: true});
+        setHasCameraPermission(true);
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        setHasCameraPermission(false);
+      }
+    };
+
+    getCameraPermission();
+  }, []);
 
   const handleFileSelect = (file: File | null) => {
     if (!file) return;
@@ -130,80 +151,121 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
 
       <Card className="overflow-hidden transition-all duration-500 shadow-2xl rounded-3xl bg-card/60 backdrop-blur-sm border-white/10">
         <CardContent className="p-4 sm:p-6">
-          {!image ? (
-            <div
-              className={cn(
-                "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out",
-                isDragging ? "border-primary bg-primary/10 scale-105 shadow-2xl shadow-primary/30" : "border-border/50 hover:border-primary/50 hover:bg-primary/5"
-              )}
-              onClick={() => fileInputRef.current?.click()}
-              onDragOver={(e) => handleDragEvents(e, true)}
-              onDragLeave={(e) => handleDragEvents(e, false)}
-              onDrop={handleDrop}
-            >
-              <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
-                 <Cat className="w-16 h-16" />
-              </div>
-              <p className="font-semibold text-lg text-center">Drop your pet photo here or click to upload</p>
-              <p className="text-muted-foreground text-sm mt-1">PNG, JPG, or WEBP</p>
-              <input
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                accept="image/png, image/jpeg, image/webp"
-                onChange={(e) => handleFileSelect(e.target.files?.[0] ?? null)}
-              />
-            </div>
-          ) : (
-            <div className="flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6 animate-in fade-in duration-500">
-                <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
-                {isPending && (
-                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-500">
-                    <PawPrint className="w-12 h-12 animate-spin text-primary mb-4" />
-                    <p className="text-lg font-semibold">Analyzing mood...</p>
+          <Tabs defaultValue="upload" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="upload"><UploadCloud className="mr-2"/>Upload Photo</TabsTrigger>
+              <TabsTrigger value="camera"><Video className="mr-2"/>Live Camera</TabsTrigger>
+            </TabsList>
+            <TabsContent value="upload">
+              {!image ? (
+                <div
+                  className={cn(
+                    "flex flex-col items-center justify-center p-10 py-16 border-2 border-dashed rounded-2xl cursor-pointer transition-all duration-300 ease-in-out mt-4",
+                    isDragging ? "border-primary bg-primary/10 scale-105 shadow-2xl shadow-primary/30" : "border-border/50 hover:border-primary/50 hover:bg-primary/5"
+                  )}
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragOver={(e) => handleDragEvents(e, true)}
+                  onDragLeave={(e) => handleDragEvents(e, false)}
+                  onDrop={handleDrop}
+                >
+                  <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
+                     <Cat className="w-16 h-16" />
                   </div>
-                )}
-              </div>
-
-              {error && !isPending && (
-                 <Alert variant="destructive" className="w-full mb-4 animate-in fade-in duration-500">
-                  <AlertTitle>Analysis Failed</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-              
-              <div className={cn("text-center w-full", showResult ? "animate-in fade-in-0 zoom-in-95 duration-700" : "opacity-0")}>
-                {emoji && (
-                  <>
-                    <p className="text-muted-foreground">Your pet is feeling...</p>
-                    <p className="text-8xl my-4 animate-bounce-in">{emoji}</p>
-                    {comment && (
-                      <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}"</p>
-                    )}
-                    
-                    <div className="mt-4 bg-muted/50 p-4 rounded-xl">
-                      <p className="text-sm text-muted-foreground mb-3 font-medium">Not quite right? Pick another!</p>
-                      <div className="flex justify-center flex-wrap gap-2">
-                        {currentEmojis.map((e) => (
-                          <button
-                            key={e}
-                            onClick={() => setEmoji(e)}
-                            className={cn(
-                              "text-3xl p-2 rounded-full transition-all duration-200 ease-in-out",
-                              e === emoji ? 'bg-primary/20 scale-125 ring-2 ring-primary' : 'hover:bg-primary/10 hover:scale-110'
-                            )}
-                            aria-label={`Select emoji ${e}`}
-                          >
-                            {e}
-                          </button>
-                        ))}
+                  <p className="font-semibold text-lg text-center">Drop your pet photo here or click to upload</p>
+                  <p className="text-muted-foreground text-sm mt-1">PNG, JPG, or WEBP</p>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    accept="image/png, image/jpeg, image/webp"
+                    onChange={(e) => handleFileSelect(e.target.files?.[0] ?? null)}
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col items-center mt-4">
+                  <div className="relative w-full aspect-square max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6 animate-in fade-in duration-500">
+                    <Image src={image} alt="User's pet" layout="fill" objectFit="cover" data-ai-hint="pet animal" />
+                    {isPending && (
+                      <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm animate-in fade-in duration-500">
+                        <PawPrint className="w-12 h-12 animate-spin text-primary mb-4" />
+                        <p className="text-lg font-semibold">Analyzing mood...</p>
                       </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+            <TabsContent value="camera">
+                <div className="flex flex-col items-center mt-4">
+                    <div className="relative w-full aspect-video max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg mb-6 animate-in fade-in duration-500">
+                        <video ref={videoRef} className="w-full aspect-video rounded-md" autoPlay muted playsInline />
+                        {hasCameraPermission === false && (
+                          <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-white p-4">
+                            <Alert variant="destructive">
+                                <AlertTitle>Camera Access Denied</AlertTitle>
+                                <AlertDescription>
+                                Please enable camera permissions in your browser settings.
+                                </AlertDescription>
+                            </Alert>
+                          </div>
+                        )}
+                        {hasCameraPermission === null && (
+                          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white backdrop-blur-sm">
+                            <Loader2 className="w-12 h-12 animate-spin text-primary mb-4" />
+                            <p className="text-lg font-semibold">Accessing camera...</p>
+                          </div>
+                        )}
                     </div>
-                  </>
-                )}
-              </div>
+                     <div className="text-center w-full animate-in fade-in-0 zoom-in-95 duration-700">
+                        <p className="text-muted-foreground">Detected Emotion</p>
+                        <p className="text-8xl my-4">🤔</p>
+                        <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"Curious"</p>
+                        <div className="w-full bg-muted rounded-full h-2.5 mb-4">
+                            <div className="bg-primary h-2.5 rounded-full" style={{width: "75%"}}></div>
+                        </div>
+                        <p className="text-sm text-muted-foreground">Confidence: 75%</p>
+                    </div>
+                </div>
+            </TabsContent>
+          </Tabs>
+
+          {image && !isPending && (
+            <div className={cn("text-center w-full", showResult ? "animate-in fade-in-0 zoom-in-95 duration-700" : "opacity-0")}>
+              {emoji && (
+                <>
+                  <p className="text-muted-foreground">Your pet is feeling...</p>
+                  <p className="text-8xl my-4 animate-bounce-in">{emoji}</p>
+                  {comment && (
+                    <p className="text-lg text-foreground/80 mb-6 italic max-w-md mx-auto">"{comment}"</p>
+                  )}
+                  
+                  <div className="mt-4 bg-muted/50 p-4 rounded-xl">
+                    <p className="text-sm text-muted-foreground mb-3 font-medium">Not quite right? Pick another!</p>
+                    <div className="flex justify-center flex-wrap gap-2">
+                      {currentEmojis.map((e) => (
+                        <button
+                          key={e}
+                          onClick={() => setEmoji(e)}
+                          className={cn(
+                            "text-3xl p-2 rounded-full transition-all duration-200 ease-in-out",
+                            e === emoji ? 'bg-primary/20 scale-125 ring-2 ring-primary' : 'hover:bg-primary/10 hover:scale-110'
+                          )}
+                          aria-label={`Select emoji ${e}`}
+                        >
+                          {e}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
+          )}
+          {error && !isPending && (
+              <Alert variant="destructive" className="w-full mt-4 mb-4 animate-in fade-in duration-500">
+              <AlertTitle>Analysis Failed</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
         </CardContent>
 
