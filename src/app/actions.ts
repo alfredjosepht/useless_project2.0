@@ -9,10 +9,10 @@ export async function getEmojiForPet(photoDataUri: string) {
 
   try {
     const result = await assignEmoji({ photoDataUri });
-    return { success: true, emoji: result.emoji };
+    return { success: true, emoji: result.emoji, comment: result.comment };
   } catch (e) {
     console.error(e);
     // A more user-friendly error message.
-    return { success: false, error: 'Could not detect a face in the photo. Please try another one.' };
+    return { success: false, error: 'Could not analyze the photo. Please try another one.' };
   }
 }

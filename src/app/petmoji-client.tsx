@@ -19,6 +19,7 @@ type PetMojiClientProps = {
 export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const [image, setImage] = useState<string | null>(null);
   const [emoji, setEmoji] = useState<string | null>(initialEmoji);
+  const [comment, setComment] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isDragging, setIsDragging] = useState(false);
@@ -46,11 +47,13 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
       setImage(dataUrl);
       setError(null);
       setEmoji(null);
+      setComment(null);
 
       startTransition(async () => {
         const result = await getEmojiForPet(dataUrl);
         if (result.success) {
           setEmoji(result.emoji);
+          setComment(result.comment);
         } else {
           setError(result.error);
         }
@@ -76,6 +79,7 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
   const handleReset = () => {
     setImage(null);
     setEmoji(null);
+    setComment(null);
     setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -156,6 +160,9 @@ export default function PetMojiClient({ initialEmoji }: PetMojiClientProps) {
                 <div className="text-center animate-in fade-in zoom-in-95 duration-500 w-full">
                   <p className="text-muted-foreground">Our AI says your pet is feeling...</p>
                   <p className="text-8xl my-4">{emoji}</p>
+                  {comment && (
+                    <p className="text-lg text-foreground mb-6">"{comment}"</p>
+                  )}
                   
                   <div className="mt-4">
                     <p className="text-sm text-muted-foreground mb-2">Not quite right? Pick another!</p>
