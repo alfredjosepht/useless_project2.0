@@ -59,15 +59,14 @@ npm run dev]
 For Software:
 
 # Screenshots (Add at least 3)
-![Description](https://drive.google.com/uc?export=view&id=1rOym6Hq3NUl6NoqdzRpOULBWqzLH2n05)
+![the first window of petmoji ai](https://drive.google.com/uc?export=view&id=1rOym6Hq3NUl6NoqdzRpOULBWqzLH2n05)
 
-the first window of petmoji ai
-![Description](https://drive.google.com/uc?export=view&id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
-selecting the image from storage
-![Alt text](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
-the working of the petmoji ai
-![Description](https://drive.google.com/uc?export=view&id=1Zq7OsCUwKkUIbVAf-55eOo9Heub1Oslc)
-it also shows the history of the images given
+![selecting the image from storage](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
+
+![the working of the petmoji ai](https://drive.google.com/uc?export=view&id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
+
+![it also shows the history of the images given](https://drive.google.com/uc?export=view&id=1Zq7OsCUwKkUIbVAf-55eOo9Heub1Oslc)
+
 
 
 
