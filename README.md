@@ -59,12 +59,14 @@ npm run dev]
 For Software:
 
 # Screenshots (Add at least 3)
+![Description](https://drive.google.com/uc?export=view&id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
+the first window of petmoji
 ![Alt text](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
-
+this shows a 
 ![Description](https://drive.google.com/uc?export=view&id=1Zq7OsCUwKkUIbVAf-55eOo9Heub1Oslc)
 
+![Description](https://drive.google.com/uc?export=view&id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
 
-![Description](https://drive.google.com/uc?id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
 
 
 # Diagrams
