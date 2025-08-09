@@ -59,51 +59,79 @@ npm run dev]
 For Software:
 
 # Screenshots (Add at least 3)
-![Description](https://drive.google.com/uc?export=view&id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
-the first window of petmoji
-![Alt text](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
-this shows a 
-![Description](https://drive.google.com/uc?export=view&id=1Zq7OsCUwKkUIbVAf-55eOo9Heub1Oslc)
+![Description](https://drive.google.com/uc?export=view&id=1rOym6Hq3NUl6NoqdzRpOULBWqzLH2n05)
 
+the first window of petmoji ai
 ![Description](https://drive.google.com/uc?export=view&id=1btS-phQHHPiIJggQXYxM-nMBHKXCme9Z)
+selecting the image from storage
+![Alt text](https://drive.google.com/uc?export=view&id=1mpId7PWgsabqhAC36dtyQkdeMAJ10jMc)
+the working of the petmoji ai
+![Description](https://drive.google.com/uc?export=view&id=1Zq7OsCUwKkUIbVAf-55eOo9Heub1Oslc)
+it also shows the history of the images given
+
 
 
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+Project Workflow: AI-Powered Pet Emotion Detector
+User Uploads Pet Image
 
-For Hardware:
+The user visits the web app and uploads a photo of their pet's face via the frontend interface (Next.js app).
 
-# Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+Image Sent to AI Backend
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+The uploaded image is sent from the frontend to the Genkit AI server (backend) via an API call.
 
-# Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+Pet Face Detection and Recognition
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+The AI server processes the image using a pet face detection model to locate the pet's face in the image.
 
-![Final](Add photo of final product here)
-*Explain the final build*
+The system recognizes the pet type or individual identity if applicable.
+
+Facial Feature Analysis & Emotion Mapping
+
+The detected pet face is analyzed for facial features and expressions.
+
+Features are mapped to predefined emotion categories (happy, sad, playful, curious, etc.).
+
+Generate Emoji and Mood Comment
+
+Based on the detected emotion, the system selects a matching emoji representing the pet’s mood.
+
+A witty, humorous comment is generated reflecting the pet’s personality and mood.
+
+Response Sent Back to Frontend
+
+The emoji and mood comment are sent back from the AI server to the Next.js frontend.
+
+Display Results to User
+
+The frontend displays the original pet image alongside the matched emoji and generated mood comment.
+
+Users can share this personalized pet “mood” content on social media or download it.
+
+User -> Upload Image (Next.js frontend) 
+    -> Sends image -> Genkit AI Server
+    -> Detect pet face & analyze emotion
+    -> Generate emoji + witty comment
+    -> Return results -> Frontend display
+    -> User views/shares petmoji
+
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+![it is the demo video of PetMoji(https://drive.google.com/uc?export=view&id=0B820HxYEF5Epc3RhcnRlcl9maWxl)
+
+*it shows that if we uplaud the image of our pet PetMoji will give recognise the face and give expressions of the pet in form of emoji and give comments .a
+It also shows the history of our activity*
 
 # Additional Demos
 [Add any extra demo materials/links]
 
 ## Team Contributions
-- []: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- [Akash s] : [done the framework and frontend]
+- [Alfred Joseph T]: [made backend and work with the pretrained AI ]
+
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
